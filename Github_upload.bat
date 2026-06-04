@@ -1,25 +1,19 @@
 @echo off
-rem 文字化け対策（UTF-8に設定）
 chcp 65001 > nul
 
 echo ===================================================
 echo  Comic_reader GitHub アップロード
 echo ===================================================
 
-rem 1. NASフォルダを安全なディレクトリとして再登録
 git config --global --add safe.directory //100.96.86.9/nas/ProgramProject/Comic_reader
 
-rem 2. 変更されたファイルをすべて準備
 echo [1/3] 変更されたファイルをスキャン中...
 git add .
 
 echo ---------------------------------------------------
-rem 3. ユーザーに変更内容（コミットメッセージ）を入力してもらう
-rem ※ 文字化けエラー対策のため、文字をシンプルにしています
 set msg=
 set /p msg="Comment (Enter to skip): "
 
-rem もし何も入力されなかった場合は、自動で日付を入れます
 if "%msg%"=="" (
     set msg=Update: %date% %time:~0,5%
 )
@@ -28,7 +22,6 @@ echo ---------------------------------------------------
 echo [2/3] 変更を記録中: "%msg%"
 git commit -m "%msg%"
 
-rem 4. GitHubへプッシュ
 echo [3/3] GitHubへアップロード中...
 git push
 
